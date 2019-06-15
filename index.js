@@ -23,10 +23,23 @@ function forkRepo() {
 
 function showResults(json) {
   //use this function to display the results from forking via the API
+  document.getElementById('results').innerHTML = `<a href=${json.html_url}>${json.html_url}</a>`;
 }
 
 function createIssue() {
   //use this function to create an issue based on the values input in index.html
+  const repo = `${user}/js-ajax-fetch-lab`;
+  const url = `${baseURL}/repos/${repo}/issues`;
+  let title = document.getElementById('title').value;
+  let body = document.getElementById('body').value;
+
+  fetch(url, {
+    method: 'POST',
+    body: JSON.stringify({title: title, body: body}),
+    headers: {Authorization: `token ${getToken()}`}
+  })
+  .then(res => res.json())
+  .then(data => getIssues());
 }
 
 function getIssues() {
