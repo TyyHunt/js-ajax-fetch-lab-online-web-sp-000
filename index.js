@@ -19,11 +19,12 @@ function forkRepo() {
   })
   .then(res => res.json())
   .then(data => showResults(data))
-}
+  }
 
-function showResults(json) {
+  function showResults(json) {
+  function showResults(data) {
   //use this function to display the results from forking via the API
-  document.getElementById('results').innerHTML = `<a href=${json.html_url}>${json.html_url}</a>`;
+  document.getElementById('results').innerHTML = `<a href=${data.html_url}>${data.html_url}</a>`;
 }
 
 function createIssue() {
@@ -34,9 +35,9 @@ function createIssue() {
   let body = document.getElementById('body').value;
 
   fetch(url, {
-    method: 'POST',
-    body: JSON.stringify({title: title, body: body}),
-    headers: {Authorization: `token ${getToken()}`}
+  	method: 'POST',
+  	body: JSON.stringify({title: title, body: body}),
+  	headers: {Authorization: `token ${getToken()}`}
   })
   .then(res => res.json())
   .then(data => getIssues());
@@ -45,20 +46,21 @@ function createIssue() {
 function getIssues() {
   //once an issue is submitted, fetch all open issues to see the issues you are creating
   const repo = `${user}/js-ajax-fetch-lab`;
-const url = `${baseURL}/repos/${repo}/issues`;
-fetch(url, {
-  headers: { Authorization: `token ${getToken()}`}
-})
-.then(res => res.json())
-.then(data => {
-  let output = '<h2>Issues</h2>';
-  data.forEach(function(issue){
-    output += `
-      <ul>
-      <li>Title: ${issue.title}</li>
-      <li>Issue: ${issue.body}</li>
-      </ul>
-    `;
-  });
-  document.getElementById('issues').innerHTML = output;
+  const url = `${baseURL}/repos/${repo}/issues`;
+  fetch(url, {
+  	headers: { Authorization: `token ${getToken()}`}
+  })
+  .then(res => res.json())
+  .then(data => {
+  	let output = '<h2>Issues</h2>';
+  	data.forEach(function(issue){
+  		output += `
+  			<ul>
+  			<li>Title: ${issue.title}</li>
+  			<li>Issue: ${issue.body}</li>
+  			</ul>
+  		`;
+  	});
+  	document.getElementById('issues').innerHTML = output;
+  })
 }
